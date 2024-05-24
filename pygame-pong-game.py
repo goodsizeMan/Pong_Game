@@ -2,6 +2,7 @@
 from typing import Any
 import pygame
 import subprocess as sub
+from gpiozero import MCP3008,Button
 
 #初始化pygame
 pygame.init()
@@ -14,6 +15,15 @@ HEIGHT = 480
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("PONG")
 clock = pygame.time.Clock()
+
+#GPIO 設定
+r_pot = MCP3008(0)
+l_pot = MCP3008(1)
+up_pot = MCP3008(2)
+
+r_button = Button(26)
+l_button = Button(2)
+home_button = Button(3)
 
 #Game Menu 路徑
 game_menu_path = r'D:\Projects\python_project\game_menu\pygame_game_menu.py'
@@ -50,6 +60,15 @@ class L_Player(pygame.sprite.Sprite):
         if key_pressed[pygame.K_j] and ball.rect.x <= 400:
             isThrow = True
 
+        if l_pot.value>0.25:
+            self.rect.y -= self.speed
+        if l_pot.value<0.25:
+            self.rect.y += self.speed
+
+        if l_button.is_pressed and ball.rect.x <= 400:
+            isThrow = True
+
+
         #脫屏判斷
         if self.rect.top < 0:
             self.rect.top = 0
@@ -75,6 +94,14 @@ class R_Player(pygame.sprite.Sprite):
         if key_pressed[pygame.K_DOWN]:
             self.rect.y += self.speed
         if key_pressed[pygame.K_LEFT] and ball.rect.x >= 400:
+            isThrow = True
+
+        if r_pot.value>0.25:
+            self.rect.y -= self.speed
+        if r_pot.value<0.25:
+            self.rect.y += self.speed
+
+        if r_button.is_pressed and ball.rect.x >= 400:
             isThrow = True
 
         #脫屏判斷
@@ -204,6 +231,10 @@ while running:
     ##按下Home鍵關閉遊戲回到MENU
     key_pressed = pygame.key.get_pressed() 
     if key_pressed[pygame.K_q]:
+        sub.Popen(["python",game_menu_path])
+        pygame.quit()
+
+    if home_button.is_pressed:
         sub.Popen(["python",game_menu_path])
         pygame.quit()
 
