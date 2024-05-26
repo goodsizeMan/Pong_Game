@@ -26,7 +26,7 @@ l_button = Button(2)
 home_button = Button(3)
 
 #Game Menu 路徑
-game_menu_path = r'D:\Projects\python_project\game_menu\pygame_game_menu.py'
+game_menu_path = '/home/raspberry/root/usb/Game_Menu/pygame_game_menu.py'
 
 #顏色設定
 BLACK = (0,0,0)
