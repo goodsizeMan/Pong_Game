@@ -196,6 +196,15 @@ def draw_init():
         if key_pressed[pygame.K_j]:
             waiting = False
 
+        #如果按Home鍵返回Menu 按r、l_button則開始遊戲
+        if home_button.is_pressed:
+            sub.Popen(["python",game_menu_path])
+            pygame.quit()
+        if r_button.is_pressed:
+            waiting = False
+        if l_button.is_pressed:
+            waiting = False
+
 
 
 #創建Sprite群組
