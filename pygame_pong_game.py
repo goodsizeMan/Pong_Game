@@ -5,6 +5,7 @@ import subprocess as sub
 from gpiozero import MCP3008,Button
 
 #初始化pygame
+
 pygame.init()
 
 #設定視窗大小
@@ -97,9 +98,9 @@ class R_Player(pygame.sprite.Sprite):
             isThrow = True
 
         if r_pot.value>0.25:
-            self.rect.y -= self.speed
-        if r_pot.value<0.25:
             self.rect.y += self.speed
+        if r_pot.value<0.25:
+            self.rect.y -= self.speed
 
         if r_button.is_pressed and ball.rect.x >= 400:
             isThrow = True
